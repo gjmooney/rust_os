@@ -3,6 +3,8 @@
 
 use core::panic::PanicInfo;
 
+static HELLO: &[u8] = b"Hell World!";
+
 // Overwrite OS entry point
 // disables name mangling as we need to know
 // the exact name to pass to the linker
@@ -10,6 +12,15 @@ use core::panic::PanicInfo;
 // ! is divergin funtion, does not return
 #[no_mangle] 
 pub extern "C" fn _start() -> ! {
+    let vga_buffer = 0xb8000 as *mut u8;
+
+    for (i, &byte) in HELLO.iter().enumerate() {
+        unsafe {
+            *vga_buffer.offset(i as isize * 2) = byte;
+            *vga_buffer.offset(i as isize * 2 + 1) = 0xb;
+        }
+    }
+
     loop {}
 }
 
