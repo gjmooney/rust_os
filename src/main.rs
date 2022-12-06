@@ -14,9 +14,7 @@ static HELLO: &[u8] = b"Hell World!";
 // ! is divergin funtion, does not return
 #[no_mangle] 
 pub extern "C" fn _start() -> ! {
-    let vga_buffer = 0xb8000 as *mut u8;
-
-    vga_buffer::print_something();
+    println!("Hell World{}", "!");
 
     loop {}
 }
