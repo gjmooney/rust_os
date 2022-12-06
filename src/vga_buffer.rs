@@ -1,3 +1,5 @@
+use volatile::Volatile; // Ensure buffer writes don't get optimized away
+use core::fmt; // Allow Rusts formatting macros
 use lazy_static::lazy_static;
 use spin::Mutex;
 
@@ -56,7 +58,6 @@ const BUFFER_HEIGHT: usize = 25;
 const BUFFER_WIDTH: usize = 80;
 
 // Struct to represent VGA buffer
-use volatile::Volatile; // Ensure buffer writes don't get optimized away
 #[repr(transparent)]
 struct Buffer {
     chars: [[Volatile<ScreenChar>; BUFFER_WIDTH]; BUFFER_HEIGHT]
@@ -141,9 +142,6 @@ pub fn print_something() {
     writer.write_string("ello ");
     write!(writer, "The numbers are {} and {}", 42, 1.0/3.0).unwrap();
 }
-
-// Allow Rusts formatting macros
-use core::fmt;
 
 impl fmt::Write for Writer {
     fn write_str(&mut self, s: &str) -> fmt::Result {

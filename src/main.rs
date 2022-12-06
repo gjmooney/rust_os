@@ -5,7 +5,6 @@ use core::panic::PanicInfo;
 
 mod vga_buffer;
 
-static HELLO: &[u8] = b"Hell World!";
 
 // Overwrite OS entry point
 // disables name mangling as we need to know
@@ -22,7 +21,8 @@ pub extern "C" fn _start() -> ! {
 // Called on panic
 // ! is 'never' type, does not return
 #[panic_handler]
-fn panic(_info: &PanicInfo) -> ! {
+fn panic(info: &PanicInfo) -> ! {
+    println!("{}", info);
     loop {}
 }
 
