@@ -32,7 +32,11 @@ pub extern "C" fn _start() -> ! {
 
     println!("It didn't crash!");
 
-    loop {}
+    loop {
+        use rust_os::print;
+        for _ in 0..10000 {}
+        print!("-");
+    }
 }
 
 // Called on panic
