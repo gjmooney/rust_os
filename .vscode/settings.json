@@ -1,3 +1,7 @@
 {
-  "cSpell.words": ["repr"]
+  "cSpell.words": ["repr", "scancode"],
+  "[rust]": {
+    "editor.defaultFormatter": "rust-lang.rust-analyzer",
+    "editor.formatOnSave": true
+  }
 }
