@@ -18,6 +18,13 @@ pub extern "C" fn _start() -> ! {
 
     rust_os::init();
 
+    use x86_64::registers::control::Cr3;
+
+    let (level_4_page_table, _) = Cr3::read();
+    println!(
+        "Level 4 page table at: {:?}",
+        level_4_page_table.start_address()
+    );
     fn stack_overflow() {
         stack_overflow();
     }
