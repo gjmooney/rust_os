@@ -1,7 +1,7 @@
-use volatile::Volatile; // Ensure buffer writes don't get optimized away
 use core::fmt; // Allow Rusts formatting macros
 use lazy_static::lazy_static;
 use spin::Mutex;
+use volatile::Volatile; // Ensure buffer writes don't get optimized away
 
 lazy_static! {
     pub static ref WRITER: Mutex<Writer> = Mutex::new(Writer {
@@ -10,7 +10,6 @@ lazy_static! {
         buffer: unsafe { &mut *(0xb8000 as *mut Buffer) },
     });
 }
-
 
 // Standard color palette
 #[allow(dead_code)] // Hide warnings for unused code
@@ -60,7 +59,7 @@ const BUFFER_WIDTH: usize = 80;
 // Struct to represent VGA buffer
 #[repr(transparent)]
 struct Buffer {
-    chars: [[Volatile<ScreenChar>; BUFFER_WIDTH]; BUFFER_HEIGHT]
+    chars: [[Volatile<ScreenChar>; BUFFER_WIDTH]; BUFFER_HEIGHT],
 }
 
 // Allow writing to buffer
@@ -94,7 +93,7 @@ impl Writer {
         }
     }
 
-    // Write string to buffer 
+    // Write string to buffer
     pub fn write_string(&mut self, s: &str) {
         for byte in s.bytes() {
             match byte {
@@ -115,7 +114,7 @@ impl Writer {
             }
         }
         self.clear_row(BUFFER_HEIGHT - 1);
-        self.column_position =  0;
+        self.column_position = 0;
     }
 
     // Overwrite row with spaces
@@ -140,7 +139,7 @@ pub fn print_something() {
 
     writer.write_byte(b'H');
     writer.write_string("ello ");
-    write!(writer, "The numbers are {} and {}", 42, 1.0/3.0).unwrap();
+    write!(writer, "The numbers are {} and {}", 42, 1.0 / 3.0).unwrap();
 }
 
 impl fmt::Write for Writer {
@@ -166,7 +165,6 @@ pub fn _print(args: fmt::Arguments) {
     use core::fmt::Write;
     WRITER.lock().write_fmt(args).unwrap();
 }
-
 
 #[test_case]
 fn test_println_simple() {

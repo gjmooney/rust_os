@@ -4,10 +4,10 @@
 
 use core::panic::PanicInfo;
 use lazy_static::lazy_static;
+use rust_os::serial_print;
+use rust_os::{exit_qemu, serial_println, QemuExitCode};
 use x86_64::structures::idt::InterruptDescriptorTable;
 use x86_64::structures::idt::InterruptStackFrame;
-use rust_os::{exit_qemu, QemuExitCode, serial_println};
-use rust_os::serial_print;
 
 #[no_mangle]
 pub extern "C" fn _start() -> ! {

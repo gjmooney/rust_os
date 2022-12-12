@@ -12,7 +12,7 @@ use rust_os::println;
 // the exact name to pass to the linker
 // extern C tells compiler to use C calling convention
 // ! is diverging function, does not return
-#[no_mangle] 
+#[no_mangle]
 pub extern "C" fn _start() -> ! {
     println!("Hell World{}", "!");
 
@@ -22,10 +22,10 @@ pub extern "C" fn _start() -> ! {
         stack_overflow();
     }
 
-    stack_overflow();
+    //stack_overflow();
 
     // Invoke breakpoint interrupt
-    x86_64::instructions::interrupts::int3();
+    //x86_64::instructions::interrupts::int3();
 
     #[cfg(test)]
     test_main();
