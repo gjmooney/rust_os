@@ -32,11 +32,7 @@ pub extern "C" fn _start() -> ! {
 
     println!("It didn't crash!");
 
-    loop {
-        use rust_os::print;
-        for _ in 0..10000 {}
-        print!("-");
-    }
+    rust_os::hlt_loop();
 }
 
 // Called on panic
@@ -45,7 +41,7 @@ pub extern "C" fn _start() -> ! {
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
     println!("{}", info);
-    loop {}
+    rust_os::hlt_loop();
 }
 
 // our panic handler in test mode
