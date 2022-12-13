@@ -4,16 +4,19 @@
 #![test_runner(rust_os::test_runner)]
 #![reexport_test_harness_main = "test_main"]
 
+use bootloader::{entry_point, BootInfo};
 use core::panic::PanicInfo;
 use rust_os::println;
+
+// Macro to provide type checked way to use Rust function as entry point
+entry_point!(kernel_main);
 
 // Overwrite OS entry point
 // disables name mangling as we need to know
 // the exact name to pass to the linker
 // extern C tells compiler to use C calling convention
 // ! is diverging function, does not return
-#[no_mangle]
-pub extern "C" fn _start() -> ! {
+fn kernel_main(boot_info: &'static BootInfo) -> ! {
     println!("Hell World{}", "!");
 
     rust_os::init();
