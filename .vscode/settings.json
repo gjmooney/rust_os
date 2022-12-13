@@ -1,5 +1,5 @@
 {
-  "cSpell.words": ["bootloader", "repr", "scancode", "virt"],
+  "cSpell.words": ["bootinfo", "bootloader", "repr", "scancode", "virt"],
   "[rust]": {
     "editor.defaultFormatter": "rust-lang.rust-analyzer",
     "editor.formatOnSave": true
