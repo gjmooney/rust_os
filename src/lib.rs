@@ -1,3 +1,4 @@
+#![feature(alloc_error_handler)]
 #![no_std]
 #![cfg_attr(test, no_main)]
 #![feature(custom_test_frameworks)]
@@ -13,11 +14,14 @@ use bootloader::{entry_point, BootInfo};
 #[cfg(test)]
 entry_point!(test_kernel_main);
 
+pub mod allocator;
 pub mod gdt;
 pub mod interrupts;
 pub mod memory;
 pub mod serial;
 pub mod vga_buffer;
+
+extern crate alloc;
 
 pub trait Testable {
     fn run(&self) -> ();
@@ -92,4 +96,9 @@ pub fn init() {
     // Unsafe because misconfigured PIC can cause undefined behavior
     unsafe { interrupts::PICS.lock().initialize() };
     x86_64::instructions::interrupts::enable();
+}
+
+#[alloc_error_handler]
+fn alloc_error_handler(layout: alloc::alloc::Layout) -> ! {
+    panic!("allocation error: {:?}", layout)
 }
