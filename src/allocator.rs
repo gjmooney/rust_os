@@ -1,6 +1,6 @@
 use alloc::alloc::{GlobalAlloc, Layout};
-use bump::BumpAllocator;
 use core::ptr::null_mut;
+use fixed_size_block::FixedSizeBlockAllocator;
 use linked_list::LinkedListAllocator;
 use x86_64::{
     structures::paging::{
@@ -10,6 +10,7 @@ use x86_64::{
 };
 
 pub mod bump;
+pub mod fixed_size_block;
 pub mod linked_list;
 pub struct Dummy;
 
@@ -17,7 +18,7 @@ pub const HEAP_START: usize = 0x_4444_4444_0000;
 pub const HEAP_SIZE: usize = 100 * 1024; // 100 KiB
 
 #[global_allocator]
-static ALLOCATOR: Locked<LinkedListAllocator> = Locked::new(LinkedListAllocator::new());
+static ALLOCATOR: Locked<FixedSizeBlockAllocator> = Locked::new(FixedSizeBlockAllocator::new());
 
 unsafe impl GlobalAlloc for Dummy {
     unsafe fn alloc(&self, _layout: Layout) -> *mut u8 {
