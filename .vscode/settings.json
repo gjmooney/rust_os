@@ -3,6 +3,7 @@
     "bootinfo",
     "bootloader",
     "dealloc",
+    "Deque",
     "repr",
     "scancode",
     "virt"
