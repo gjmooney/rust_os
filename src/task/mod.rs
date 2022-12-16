@@ -5,6 +5,7 @@ use core::{
     task::{Context, Poll},
 };
 
+pub mod keyboard;
 pub mod simple_executor;
 
 // Output = () because tasks are executed for side effects not returns
